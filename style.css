@@ -1,15 +1,32 @@
 body {
+    height: 100vh;
     font-family: Arial, sans-serif;
     background-color: #f9f9f9;
     margin: 0;
     padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-image: url("./img/background-color.jpeg");
+    background-repeat: no-repeat;
+    background-size: cover;
 }
-
-/* Grid Game 4 x 4 */
 
 .grid-container {
     display: grid;
     grid-template-columns: repeat(4, 100px);
+    grid-template-rows: repeat(4, 100px);
+    gap: 10px;
+    background-color: #ffffff;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.grid-container-32 {
+    display: grid;
+    grid-template-columns: repeat(8, 100px);
     grid-template-rows: repeat(4, 100px);
     gap: 10px;
     background-color: #ffffff;
@@ -26,4 +43,15 @@ body {
     cursor: pointer;
     border: solid 1px black;
     transition: background-color 0.3s;
+}
+
+.button-container {
+    margin: 20px;
+}
+
+button {
+    margin: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
 }

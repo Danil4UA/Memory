@@ -1,43 +1,56 @@
-const start = document.getElementById("start-game");
-const createContainer = document.createElement("div");
-createContainer.classList.add("grid-container");
-document.body.appendChild(createContainer);
+const colors = [
+    "red", "blue", "green", "yellow",
+    "purple", "orange", "pink", "brown",
+    "cyan", "magenta", "lime", "indigo",
+    "violet", "coral", "teal", "gold"
+];
 
-const colors = ["red", "blue", "green", "yellow", "purple", "orange", "pink", "brown"];
-
+const start16 = document.getElementById("start-game-16");
+const start32 = document.getElementById("start-game-32");
+const gameContainer = document.getElementById("game-container");
 let openBlocks = [];
 let blockClicksDisabled = false;
 
-start.addEventListener("click", () => {
-    createContainer.innerHTML = '';
-    createBlocks();
-    generateRandomArray();
-    openBlocks = [];
-    blockClicksDisabled = false;
+start16.addEventListener("click", () => {
+    startGame(16);
 });
 
-function createBlocks() {
-    for (let i = 0; i < 16; i++) { 
+start32.addEventListener("click", () => {
+    startGame(32);
+});
+
+function startGame(blockCount) {
+    gameContainer.innerHTML = '';
+    const gridClass = blockCount === 16 ? 'grid-container' : 'grid-container-32';
+    gameContainer.className = gridClass;
+    createBlocks(blockCount);
+    generateRandomArray(blockCount / 2);
+    openBlocks = [];
+    blockClicksDisabled = false;
+}
+
+function createBlocks(amountOfBlocks) {
+    for (let i = 0; i < amountOfBlocks; i++) {
         const createBlock = document.createElement("div");
         createBlock.classList.add("grid-item");
         createBlock.style.backgroundColor = "grey";
-        createContainer.appendChild(createBlock);
+        gameContainer.appendChild(createBlock);
     }
 }
 
-const data = () => {
+function data(amountOfColors) {
     const randomNumbers = [];
-    while(randomNumbers.length < 8) {
-        const randomNumber = Math.floor((Math.random() * 8));
-        if(!randomNumbers.includes(randomNumber)) {
+    while (randomNumbers.length < amountOfColors) {
+        const randomNumber = Math.floor(Math.random() * amountOfColors);
+        if (!randomNumbers.includes(randomNumber)) {
             randomNumbers.push(randomNumber);
         }
     }
     return randomNumbers;
 }
 
-function generateRandomArray() {
-    const randomArray = data().concat(data());
+function generateRandomArray(amountOfUniqueColors) {
+    const randomArray = data(amountOfUniqueColors).concat(data(amountOfUniqueColors));
     randomArray.sort(() => Math.random() - 0.5);
     console.log(randomArray);
 
@@ -56,17 +69,15 @@ function generateRandomArray() {
                 blockClicksDisabled = true;
                 const [firstBlock, secondBlock] = openBlocks;
                 if (firstBlock.style.backgroundColor === secondBlock.style.backgroundColor) {
-                    // Если цвета совпадают, оставляем блоки открытыми
                     openBlocks = [];
                     blockClicksDisabled = false;
                 } else {
-                    // Если цвета не совпадают, закрываем блоки обратно через 1 секунду
                     setTimeout(() => {
                         firstBlock.style.backgroundColor = "grey";
                         secondBlock.style.backgroundColor = "grey";
                         openBlocks = [];
                         blockClicksDisabled = false;
-                    }, 200);
+                    }, 400);
                 }
             }
         });
